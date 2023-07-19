@@ -5,8 +5,6 @@
 #
 
 # @lc code=start
-from collections import deque
-from typing import List
 
 
 class Solution:
@@ -27,10 +25,10 @@ class Solution:
         
 # @lc code=end
 
-sol = Solution()
-nums = [1,1,2]
-res = sol.removeDuplicates(nums)
-print(res)
-print(nums)
+# sol = Solution()
+# nums = [1,1,2]
+# res = sol.removeDuplicates(nums)
+# print(res)
+# print(nums)
 
 
