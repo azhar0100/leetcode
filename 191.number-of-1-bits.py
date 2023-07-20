@@ -3,15 +3,11 @@
 #
 # [191] Number of 1 Bits
 #
+from collections import Counter
 
 # @lc code=start
 class Solution:
     def hammingWeight(self, n: int) -> int:
-        total = 0
-        while n > 0:
-            total += 1 & n
-            n = n >> 1
-        return total
-        
+        return Counter(bin(n)[2:])['1']
 # @lc code=end
 
