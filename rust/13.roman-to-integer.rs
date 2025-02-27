@@ -40,15 +40,27 @@ impl Solution {
                 )
             })
             .collect();
+        // println!("{:?}", rle_values);
         rle_values
             .iter()
-            .zip(rle_values.iter().zip(rle_values.iter().skip(1)).map(
-                |((v1, _), (v2, _))| match v1 < v2 {
-                    true => -1,
-                    false => 1,
-                },
-            ))
-            .map(|((v, count), sign)| v * count * sign)
+            .zip(
+                rle_values
+                    .iter()
+                    .zip(
+                        rle_values
+                            .iter()
+                            .map(|x| Some(x))
+                            .skip(1)
+                            .chain(std::iter::once(None)),
+                    )
+                    .map(|((v1, _), val)| {
+                        val.map(|(v2, _)| match v1 < v2 {
+                            true => -1,
+                            false => 1,
+                        })
+                    }),
+            )
+            .map(|((v, count), sign)| v * count * sign.unwrap_or(1))
             .sum()
     }
 }
