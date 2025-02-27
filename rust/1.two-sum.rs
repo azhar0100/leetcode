@@ -1,7 +1,10 @@
+/*
+ * @lc app=leetcode id=1 lang=rust
+ *
+ * [1] Two Sum
+ */
 
-// In src/problems/p0001_two_sum.rs
-pub struct Solution;
-
+// @lc code=start
 use std::collections::HashSet;
 pub fn search_sorted(nums: &[i32], target: i32) -> Option<usize> {
     nums.get(nums.partition_point(|&x| x < target))
@@ -44,3 +47,5 @@ impl Solution {
             
     }
 }
+
+// @lc code=end
