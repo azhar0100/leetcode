@@ -1,7 +1,12 @@
 pub mod problems;
+pub mod util;
 fn main() {
-        // You can test your solution here
-    let input_num ="III".to_string();
-    let result = problems::p0013_roman_to_integer::roman_to_int(input_num);
-    println!("{:?}", result);
+    //     "PAYPALISHIRING"
+    // 3
+    // let s = "PAYPALISHIRING".to_string();
+    let s = "0123456789ABCD".to_string();
+    let num_rows = 4;
+    let res = problems::p0006_zigzag_conversion::convert(s, num_rows);
+    println!("{}", res);
+
 }
