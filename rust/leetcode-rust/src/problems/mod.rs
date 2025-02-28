@@ -5,3 +5,4 @@ pub mod p0014_longest_common_prefix;
 pub mod p0020_valid_parantheses;
 pub mod p0003_longest_substring_without_repeating_characters;
 pub mod p0006_zigzag_conversion;
+pub mod p0015_3sum;
