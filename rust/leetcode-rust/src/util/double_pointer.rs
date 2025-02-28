@@ -52,6 +52,7 @@ pub enum SafeDoublePointerError{
     BothPointersExceedMaxLen,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct SafeDoublePointer{
     pub double_pointer: DoublePointer,
     pub max_len: usize,
@@ -66,7 +67,7 @@ impl SafeDoublePointer{
     }
 
     pub fn advance_left(&mut self) -> Result<(), SafeDoublePointerError> {
-        if self.double_pointer.left >= self.max_len {
+        if self.double_pointer.left >= (self.max_len-1) {
             return Err(SafeDoublePointerError::LeftPointerExceedsMaxLen);
         }
         self.double_pointer.advance_left();
@@ -74,10 +75,26 @@ impl SafeDoublePointer{
     }
 
     pub fn advance_right(&mut self) -> Result<(), SafeDoublePointerError> {
-        if self.double_pointer.right >= self.max_len {
+        if self.double_pointer.right >= (self.max_len-1) {
             return Err(SafeDoublePointerError::RightPointerExceedsMaxLen);
         }
         self.double_pointer.advance_right();
+        Ok(())
+    }
+
+    pub fn retreat_left(&mut self) -> Result<(), SafeDoublePointerError> {
+        if self.double_pointer.left == 0 {
+            return Err(SafeDoublePointerError::LeftPointerExceedsMaxLen);
+        }
+        self.double_pointer.left -= 1;
+        Ok(())
+    }
+
+    pub fn retreat_right(&mut self) -> Result<(), SafeDoublePointerError> {
+        if self.double_pointer.right == 0 {
+            return Err(SafeDoublePointerError::RightPointerExceedsMaxLen);
+        }
+        self.double_pointer.right -= 1;
         Ok(())
     }
 
