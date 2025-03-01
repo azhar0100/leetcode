@@ -1,5 +1,3 @@
-use problems::p0015_3sum::three_sum_final;
-
 pub mod problems;
 pub mod util;
 fn main() {
@@ -10,7 +8,12 @@ fn main() {
     // let num_rows = 4;
     // let res = problems::p0006_zigzag_conversion::convert(s, num_rows);
     // println!("{}", res);
-    let threesum_input = vec![-1,0,1,2,-1,-4];
-    let result = three_sum_final(threesum_input);
-    println!("{:?}", result);
+    // let threesum_input = vec![-1,0,1,2,-1,-4];
+    // let result = three_sum_final(threesum_input);
+    // println!("{:?}", result);
+
+    let nums1 = vec![1,2];
+    let nums2 = vec![3,4];
+    let result = problems::p0004_median_of_two_sorted_arrays::find_median_sorted_arrays(nums1,nums2);
+    println!("{:?}",result)
 }
