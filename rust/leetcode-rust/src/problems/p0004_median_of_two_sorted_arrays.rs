@@ -53,16 +53,12 @@ where
     let min_position = (c_isize - n_isize).max(-1) as isize;
     let max_position = c_isize.min(m_isize - 1);
     let i_s = (min_position..(max_position + 1)).collect::<Vec<_>>();
-    log::debug!("i_s are {:?}", i_s);
     let partition_index = i_s
         .binary_search_by(|i| {
-            log::debug!("Binary search call");
             let i = i.clone();
             let j = c_isize - i - 1;
-            log::debug!("i is {:?}, j is {:?}",i,j);
             let a = get_isize(nums1, i);
             let b = get_isize(nums2, j);
-            log::debug!("a is {:?}, b is {:?}",a,b);
             let direction = match (a, b) {
                 (None, None) => None,
                 (None, Some(_)) => Some(Direction::Second),
@@ -73,17 +69,14 @@ where
                     std::cmp::Ordering::Greater => Direction::First,
                 }),
             };
-            log::debug!("direction is {:?}",direction);
             let prev_element = direction.map(|x| match x {
                 Direction::First => (i - 1, j),
                 Direction::Second => (i, j - 1),
             });
-            log::debug!("prev element is {:?}",prev_element);
             match prev_element {
                 Some((prev_i, prev_j)) => {
                     let prev_a = get_isize(nums1, prev_i);
                     let prev_b = get_isize(nums2, prev_j);
-                    log::debug!("prev_a, prev_b are {:?}",&(prev_a,prev_b));
                     let next_i = prev_i + 1;
                     let next_j = prev_j + 1;
                     let next_a = get_isize(nums1, next_i);
@@ -98,7 +91,6 @@ where
                             std::cmp::Ordering::Greater => Direction::Second,
                         }),
                     };
-                    log::debug!("actual direction is calculated as {:?}",actual_forward_direction);
                     match actual_forward_direction {
                         Some(actual_direction) => {
                             let direction =
@@ -121,10 +113,6 @@ where
     let i_at_partition_point = partition_index.map(|partition_index| i_s[partition_index]);
     let j_at_partition_point =
         i_at_partition_point.map(|i_at_partition_point| c_isize - 1 - i_at_partition_point);
-    log::debug!(
-        "i,j is ({:?},{:?})",
-        i_at_partition_point, j_at_partition_point
-    );
     let value_a = i_at_partition_point
         .map(|i_at_partition_point| get_isize(&nums1, i_at_partition_point))
         .flatten();
@@ -192,8 +180,6 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
                         .map(|x| x.clone() as f64)
                 })
                 .flatten();
-            log::debug!("val1 is {:?}", val1);
-            log::debug!("val2 is {:?}", val2);
             let median = val1
                 .map(|val1| val2.map(|val2| (val1 + val2) / 2.0))
                 .flatten();
@@ -208,7 +194,6 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
             )
             .unwrap()
             .clone() as f64;
-            log::debug!("val is {:?}", val);
             val
         }
     }

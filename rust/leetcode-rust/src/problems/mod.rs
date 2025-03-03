@@ -7,3 +7,5 @@ pub mod p0003_longest_substring_without_repeating_characters;
 pub mod p0006_zigzag_conversion;
 pub mod p0015_3sum;
 pub mod p0004_median_of_two_sorted_arrays;
+pub mod p0080_remove_duplicates_from_sorted_array_2;
+pub mod p0189_rotate_array;

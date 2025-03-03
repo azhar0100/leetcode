@@ -12,9 +12,14 @@ fn main() {
     // let result = three_sum_final(threesum_input);
     // println!("{:?}", result);
 
-    let nums1 = vec![];
-    let nums2 = vec![1];
-    // let result = problems::p0004_median_of_two_sorted_arrays::find_any_position_in_two_sorted_arrays(&nums1,&nums2,1);
-    let result = problems::p0004_median_of_two_sorted_arrays::find_median_sorted_arrays(nums1,nums2);
-    println!("{:?}",result)
+    // let nums1 = vec![];
+    // let nums2 = vec![1];
+    // // let result = problems::p0004_median_of_two_sorted_arrays::find_any_position_in_two_sorted_arrays(&nums1,&nums2,1);
+    // let result = problems::p0004_median_of_two_sorted_arrays::find_median_sorted_arrays(nums1,nums2);
+    // println!("{:?}",result)
+    let mut nums = vec![1,2,3,4,5,6,7];
+    let k = 3;
+    println!("nums before: {:?}",nums);
+    problems::p0189_rotate_array::rotate(&mut nums, k);
+    println!("nums after: {:?}",nums);
 }
