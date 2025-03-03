@@ -1,4 +1,5 @@
-use core::panic;
+use std::fmt::Debug;
+
 
 #[derive(Clone, Debug)]
 pub enum FirstOrSecondPositionResult {
@@ -36,7 +37,7 @@ pub fn find_any_position_in_two_sorted_arrays<T>(
     position_to_find: usize,
 ) -> Option<FirstOrSecondPositionResult>
 where
-    T: Ord + Eq,
+    T: Ord + Eq + Debug,
 {
     let c: usize = position_to_find;
     let m: usize = nums1.len();
@@ -54,10 +55,13 @@ where
     println!("i_s are {:?}", i_s);
     let partition_index = i_s
         .binary_search_by(|i| {
+            println!("Binary search call");
             let i = i.clone();
             let j = c_isize - i - 1;
+            println!("i is {:?}, j is {:?}",i,j);
             let a = get_isize(nums1, i);
             let b = get_isize(nums2, j);
+            println!("a is {:?}, b is {:?}",a,b);
             let direction = match (a, b) {
                 (None, None) => None,
                 (None, Some(_)) => Some(Direction::Second),
@@ -68,25 +72,33 @@ where
                     std::cmp::Ordering::Greater => Direction::First,
                 }),
             };
+            println!("direction is {:?}",direction);
             let prev_element = direction.map(|x| match x {
                 Direction::First => (i - 1, j),
                 Direction::Second => (i, j - 1),
             });
+            println!("prev element is {:?}",prev_element);
             match prev_element {
                 Some((prev_i, prev_j)) => {
                     let prev_a = get_isize(nums1, prev_i);
                     let prev_b = get_isize(nums2, prev_j);
-                    let actual_direction = match (prev_a, prev_b) {
+                    println!("prev_a, prev_b are {:?}",&(prev_a,prev_b));
+                    let next_i = prev_i + 1;
+                    let next_j = prev_j + 1;
+                    let next_a = get_isize(nums1, next_i);
+                    let next_b = get_isize(nums2, next_j);
+                    let actual_forward_direction = match (next_a,next_b) {
                         (None, None) => None,
                         (None, Some(_)) => Some(Direction::Second),
                         (Some(_), None) => Some(Direction::First),
-                        (Some(prev_a), Some(prev_b)) => Some(match prev_a.cmp(prev_b) {
-                            std::cmp::Ordering::Less => Direction::Second,
+                        (Some(next_a), Some(next_b)) => Some(match next_a.cmp(next_b){
+                            std::cmp::Ordering::Less => Direction::First,
                             std::cmp::Ordering::Equal => Direction::First,
-                            std::cmp::Ordering::Greater => Direction::First,
+                            std::cmp::Ordering::Greater => Direction::Second,
                         }),
                     };
-                    match actual_direction {
+                    println!("actual direction is calculated as {:?}",actual_forward_direction);
+                    match actual_forward_direction {
                         Some(actual_direction) => {
                             let direction =
                                 direction.expect("This should be here, since prev_element is here");
