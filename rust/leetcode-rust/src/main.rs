@@ -12,8 +12,8 @@ fn main() {
     // let result = three_sum_final(threesum_input);
     // println!("{:?}", result);
 
-    let nums1 = vec![1,3];
-    let nums2 = vec![2];
+    let nums1 = vec![];
+    let nums2 = vec![1];
     // let result = problems::p0004_median_of_two_sorted_arrays::find_any_position_in_two_sorted_arrays(&nums1,&nums2,1);
     let result = problems::p0004_median_of_two_sorted_arrays::find_median_sorted_arrays(nums1,nums2);
     println!("{:?}",result)
