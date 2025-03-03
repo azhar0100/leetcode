@@ -127,27 +127,34 @@ where
             i_at_partition_point.expect("If value_a exists, i_at_partition_point exists") as usize,
         )),
         (Some(a), Some(b)) => {
-            let i_at_partition_point = i_at_partition_point.expect("if value_a exists, i_at_partition_point exists")
-            let j_at_partition_point = j_at_partition_point.expect("if value_b exists, j_at_partition_point exists");
+            let i_at_partition_point =
+                i_at_partition_point.expect("if value_a exists, i_at_partition_point exists");
+            let j_at_partition_point =
+                j_at_partition_point.expect("if value_b exists, j_at_partition_point exists");
             let ordinal_c = position_to_find + 1;
             let ordinal_i = (i_at_partition_point + 1) as usize;
             let ordinal_j = (j_at_partition_point + 1) as usize;
-            let achieved_position_before_the_pair = ordinal_i + ordinal_j - 2;
-            match ordinal_c - achieved_position_before_the_pair {
-                1 | 2 => match a.cmp(b) {
-                    std::cmp::Ordering::Less => Some(FirstOrSecondPositionResult::First(
-                        i_at_partition_point as usize,
-                    )),
-                    std::cmp::Ordering::Equal => Some(FirstOrSecondPositionResult::First(
-                        i_at_partition_point as usize,
-                    )),
-                    std::cmp::Ordering::Greater => Some(FirstOrSecondPositionResult::Second(
-                        j_at_partition_point as usize,
-                    )),
-                },
+            Some(match a.cmp(b){
+                std::cmp::Ordering::Less => FirstOrSecondPositionResult::Second(j_at_partition_point as usize),
+                std::cmp::Ordering::Equal => FirstOrSecondPositionResult::First(i_at_partition_point as usize),
+                std::cmp::Ordering::Greater => FirstOrSecondPositionResult::First(i_at_partition_point as usize),
+            })
+            // let achieved_position_before_the_pair = ordinal_i + ordinal_j - 2;
+            // match ordinal_c - achieved_position_before_the_pair {
+            //     1 | 2 => match a.cmp(b) {
+            //         std::cmp::Ordering::Less => Some(FirstOrSecondPositionResult::First(
+            //             i_at_partition_point as usize,
+            //         )),
+            //         std::cmp::Ordering::Equal => Some(FirstOrSecondPositionResult::First(
+            //             i_at_partition_point as usize,
+            //         )),
+            //         std::cmp::Ordering::Greater => Some(FirstOrSecondPositionResult::Second(
+            //             j_at_partition_point as usize,
+            //         )),
+            //     },
 
-                _ => panic!("This was never supposed to happen"),
-            }
+            //     _ => panic!("This was never supposed to happen"),
+            // }
         }
     }
 }
@@ -158,18 +165,26 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
         false => {
             let idx1 = total_len / 2 - 1;
             let idx2 = total_len / 2;
-            println!("idx1 is {:?},idx2 is {:?}", idx1, idx2);
-            let pos1 = find_any_position_in_two_sorted_arrays(&nums1, &nums2, idx1).unwrap();
-            let pos2 = find_any_position_in_two_sorted_arrays(&nums1, &nums2, idx2).unwrap();
-            println!("pos1 is {:?},pos2 is {:?}", pos1, pos2);
-            let val1 = value_at_enum_idx_for_two_arrays(&nums1, &nums2, &pos1)
-                .unwrap()
-                .clone() as f64;
-            let val2 = value_at_enum_idx_for_two_arrays(&nums1, &nums2, &pos2)
-                .unwrap()
-                .clone() as f64;
-            println!("val1 is {:?},val2 is {:?}", val1, val2);
-            (val1 + val2) / 2.0
+            let pos1 = find_any_position_in_two_sorted_arrays(&nums1, &nums2, idx1);
+            let pos2 = find_any_position_in_two_sorted_arrays(&nums1, &nums2, idx2);
+            let val1 = pos1
+                .map(|pos1| {
+                    value_at_enum_idx_for_two_arrays(&nums1, &nums2, &pos1)
+                        .map(|x| x.clone() as f64)
+                })
+                .flatten();
+            let val2 = pos2
+                .map(|pos2| {
+                    value_at_enum_idx_for_two_arrays(&nums1, &nums2, &pos2)
+                        .map(|x| x.clone() as f64)
+                })
+                .flatten();
+            println!("val1 is {:?}", val1);
+            println!("val2 is {:?}", val2);
+            let median = val1
+                .map(|val1| val2.map(|val2| (val1 + val2) / 2.0))
+                .flatten();
+            median.expect("this should be there")
         }
         true => {
             let idx = (total_len - 1) / 2;
