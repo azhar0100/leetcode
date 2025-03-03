@@ -121,18 +121,20 @@ where
     match (value_a, value_b) {
         (None, None) => None,
         (None, Some(_)) => Some(FirstOrSecondPositionResult::Second(
-            j_at_partition_point as usize,
+            j_at_partition_point.expect("If value_b exists, j_at_partition_point exists") as usize,
         )),
         (Some(_), None) => Some(FirstOrSecondPositionResult::First(
-            i_at_partition_point as usize,
+            i_at_partition_point.expect("If value_a exists, i_at_partition_point exists") as usize,
         )),
         (Some(a), Some(b)) => {
+            let i_at_partition_point = i_at_partition_point.expect("if value_a exists, i_at_partition_point exists")
+            let j_at_partition_point = j_at_partition_point.expect("if value_b exists, j_at_partition_point exists");
             let ordinal_c = position_to_find + 1;
             let ordinal_i = (i_at_partition_point + 1) as usize;
             let ordinal_j = (j_at_partition_point + 1) as usize;
             let achieved_position_before_the_pair = ordinal_i + ordinal_j - 2;
             match ordinal_c - achieved_position_before_the_pair {
-                1 => match a.cmp(b) {
+                1 | 2 => match a.cmp(b) {
                     std::cmp::Ordering::Less => Some(FirstOrSecondPositionResult::First(
                         i_at_partition_point as usize,
                     )),
@@ -143,17 +145,7 @@ where
                         j_at_partition_point as usize,
                     )),
                 },
-                2 => match a.cmp(b) {
-                    std::cmp::Ordering::Less => Some(FirstOrSecondPositionResult::Second(
-                        j_at_partition_point as usize,
-                    )),
-                    std::cmp::Ordering::Equal => Some(FirstOrSecondPositionResult::Second(
-                        j_at_partition_point as usize,
-                    )),
-                    std::cmp::Ordering::Greater => Some(FirstOrSecondPositionResult::First(
-                        i_at_partition_point as usize,
-                    )),
-                },
+
                 _ => panic!("This was never supposed to happen"),
             }
         }
