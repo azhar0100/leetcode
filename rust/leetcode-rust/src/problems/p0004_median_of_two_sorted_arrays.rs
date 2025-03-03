@@ -6,6 +6,12 @@ pub enum FirstOrSecondPositionResult {
     Second(usize),
 }
 
+#[derive(Clone, Debug, Copy, PartialEq, Eq)]
+pub enum Direction {
+    First,
+    Second,
+}
+
 pub fn value_at_enum_idx_for_two_arrays<'a, T>(
     nums1: &'a [T],
     nums2: &'a [T],
@@ -44,32 +50,74 @@ where
     let n_isize = n as isize;
     let min_position = (c_isize - n_isize).max(-1) as isize;
     let max_position = c.min(m - 1) as isize;
-    let i_s = (min_position..(max_position + 1)).rev().collect::<Vec<_>>();
+    let i_s = (min_position..(max_position + 1)).collect::<Vec<_>>();
     println!("i_s are {:?}", i_s);
-    let partition_index_raw = i_s.partition_point(|i| {
-        let j = c_isize - i - 1;
-        let a = get_isize(nums1, *i);
-        let b = get_isize(nums2, j);
-        match (a, b) {
-            (None, None) => false,
-            (None, Some(_)) => true,
-            (Some(_), None) => false,
-            (Some(a), Some(b)) => b >= a,
-        }
-    });
-    let partition_index = match partition_index_raw >= i_s.len() {
-        true => partition_index_raw - 1,
-        false => partition_index_raw,
-    };
-
-    let i_at_partition_point = i_s[partition_index];
-    let j_at_partition_point = c_isize - 1 - i_at_partition_point;
+    let partition_index = i_s
+        .binary_search_by(|i| {
+            let i = i.clone();
+            let j = c_isize - i - 1;
+            let a = get_isize(nums1, i);
+            let b = get_isize(nums2, j);
+            let direction = match (a, b) {
+                (None, None) => None,
+                (None, Some(_)) => Some(Direction::Second),
+                (Some(_), None) => Some(Direction::First),
+                (Some(a), Some(b)) => Some(match a.cmp(b) {
+                    std::cmp::Ordering::Less => Direction::Second,
+                    std::cmp::Ordering::Equal => Direction::First,
+                    std::cmp::Ordering::Greater => Direction::First,
+                }),
+            };
+            let prev_element = direction.map(|x| match x {
+                Direction::First => (i - 1, j),
+                Direction::Second => (i, j - 1),
+            });
+            match prev_element {
+                Some((prev_i, prev_j)) => {
+                    let prev_a = get_isize(nums1, prev_i);
+                    let prev_b = get_isize(nums2, prev_j);
+                    let actual_direction = match (prev_a, prev_b) {
+                        (None, None) => None,
+                        (None, Some(_)) => Some(Direction::Second),
+                        (Some(_), None) => Some(Direction::First),
+                        (Some(prev_a), Some(prev_b)) => Some(match prev_a.cmp(prev_b) {
+                            std::cmp::Ordering::Less => Direction::Second,
+                            std::cmp::Ordering::Equal => Direction::First,
+                            std::cmp::Ordering::Greater => Direction::First,
+                        }),
+                    };
+                    match actual_direction {
+                        Some(actual_direction) => {
+                            let direction =
+                                direction.expect("This should be here, since prev_element is here");
+                            match direction == actual_direction {
+                                true => std::cmp::Ordering::Equal,
+                                false => match direction {
+                                    Direction::First => std::cmp::Ordering::Greater,
+                                    Direction::Second => std::cmp::Ordering::Less,
+                                },
+                            }
+                        }
+                        None => std::cmp::Ordering::Equal,
+                    }
+                }
+                None => std::cmp::Ordering::Equal,
+            }
+        })
+        .ok();
+    let i_at_partition_point = partition_index.map(|partition_index| i_s[partition_index]);
+    let j_at_partition_point =
+        i_at_partition_point.map(|i_at_partition_point| c_isize - 1 - i_at_partition_point);
     println!(
         "i,j is ({:?},{:?})",
         i_at_partition_point, j_at_partition_point
     );
-    let value_a = get_isize(&nums1, i_at_partition_point);
-    let value_b = get_isize(&nums2, j_at_partition_point);
+    let value_a = i_at_partition_point
+        .map(|i_at_partition_point| get_isize(&nums1, i_at_partition_point))
+        .flatten();
+    let value_b = j_at_partition_point
+        .map(|j_at_partition_point| get_isize(&nums2, j_at_partition_point))
+        .flatten();
     match (value_a, value_b) {
         (None, None) => None,
         (None, Some(_)) => Some(FirstOrSecondPositionResult::Second(
