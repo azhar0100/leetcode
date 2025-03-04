@@ -23,7 +23,11 @@ fn main() {
     // problems::p0189_rotate_array::rotate(&mut nums, k);
     // println!("nums after: {:?}",nums);
 
-    let mut nums = vec![1,2,3,4];
-    let result = problems::p0238_product_of_array_except_self::product_except_self(nums);
-    println!("{:?}",result)
+    // let mut nums = vec![1,2,3,4];
+    // let result = problems::p0238_product_of_array_except_self::product_except_self(nums);
+    // println!("{:?}",result)
+    let citations = vec![3,0,6,1,5];
+    let result = problems::p0274_h_index::h_index(citations);
+    println!("{:?}",result);
+
 }
