@@ -17,9 +17,13 @@ fn main() {
     // // let result = problems::p0004_median_of_two_sorted_arrays::find_any_position_in_two_sorted_arrays(&nums1,&nums2,1);
     // let result = problems::p0004_median_of_two_sorted_arrays::find_median_sorted_arrays(nums1,nums2);
     // println!("{:?}",result)
-    let mut nums = vec![1,2,3,4,5,6,7];
-    let k = 3;
-    println!("nums before: {:?}",nums);
-    problems::p0189_rotate_array::rotate(&mut nums, k);
-    println!("nums after: {:?}",nums);
+    // let mut nums = vec![1,2,3,4,5,6,7];
+    // let k = 3;
+    // println!("nums before: {:?}",nums);
+    // problems::p0189_rotate_array::rotate(&mut nums, k);
+    // println!("nums after: {:?}",nums);
+
+    let mut nums = vec![1,2,3,4];
+    let result = problems::p0238_product_of_array_except_self::product_except_self(nums);
+    println!("{:?}",result)
 }
