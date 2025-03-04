@@ -13,13 +13,13 @@ pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {
         .collect::<Vec<_>>()
         .into_iter()
         .rev();
-    // let prefixes_iter = std::iter::once(None).chain(prefixes.map(|x| Some(x))).skip(1).take(nums.len());
-    // let suffixes_iter = suffixes.map(|x| Some(x)).chain(std::iter::once(None)).take(nums.len()).skip(1);
-    let prefixes_iter = prefixes.map(|x|Some(x));
-    let suffixes_iter = suffixes.map(|x|Some(x));
-    println!("{:?}", nums);
-    println!("{:?}", prefixes_iter.clone().collect::<Vec<_>>());
-    println!("{:?}", suffixes_iter.clone().collect::<Vec<_>>());
+    let prefixes_iter = std::iter::once(None).chain(prefixes.map(|x| Some(x))).take(nums.len());
+    let suffixes_iter = suffixes.map(|x| Some(x)).chain(std::iter::once(None)).skip(1).take(nums.len());
+    // let prefixes_iter = prefixes.map(|x|Some(x));
+    // let suffixes_iter = suffixes.map(|x|Some(x));
+    // println!("{:?}", nums);
+    // println!("{:?}", prefixes_iter.clone().collect::<Vec<_>>());
+    // println!("{:?}", suffixes_iter.clone().collect::<Vec<_>>());
     prefixes_iter
         .zip(suffixes_iter)
         .map(|(p, s)| match (p,s){

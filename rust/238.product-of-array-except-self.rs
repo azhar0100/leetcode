@@ -7,35 +7,32 @@
 // @lc code=start
 impl Solution {
     pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {
-        let prefixes = nums
-            .iter()
-            .scan(1 as i32, |acc, x| {
-                *acc = *acc * x;
-                Some(*acc)
-            })
-            .map(|x| Some(x))
-            .skip(1);
+        let prefixes = nums.iter().scan(1, |acc, x| {
+            *acc = *acc * (*x);
+            Some(acc.clone())
+        });
         let suffixes = nums
             .iter()
             .rev()
-            .scan(1 as i32, |acc, x| {
-                *acc = *acc * x;
-                Some(*acc)
+            .scan(1, |acc, x| {
+                *acc = *acc * (*x);
+                Some(acc.clone())
             })
-            .map(|x| Some(x))
-            .skip(1);
-        let prefix_iter = std::iter::once(None).chain(prefixes);
-        let suffix_iter = suffixes.chain(std::iter::once(None));
-
-        prefix_iter
-            .zip(suffix_iter)
-            .map(|(p, s)| match (p, s) {
-                (None, None) => panic!("This should never happen"),
+            .collect::<Vec<_>>()
+            .into_iter()
+            .rev();
+        let prefixes_iter = std::iter::once(None).chain(prefixes.map(|x| Some(x))).take(nums.len());
+        let suffixes_iter = suffixes.map(|x| Some(x)).chain(std::iter::once(None)).skip(1).take(nums.len());
+        prefixes_iter
+            .zip(suffixes_iter)
+            .map(|(p, s)| match (p,s){
+                (None, None) => panic!("Impossible"),
                 (None, Some(s)) => s,
                 (Some(p), None) => p,
-                (Some(p), Some(s)) => p * s,
+                (Some(p), Some(s)) => p*s,
             })
             .collect()
     }
+    
 }
 // @lc code=end
