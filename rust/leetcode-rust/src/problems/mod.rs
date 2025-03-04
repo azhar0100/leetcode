@@ -10,3 +10,4 @@ pub mod p0004_median_of_two_sorted_arrays;
 pub mod p0080_remove_duplicates_from_sorted_array_2;
 pub mod p0189_rotate_array;
 pub mod p0238_product_of_array_except_self;
+pub mod p0274_h_index;
