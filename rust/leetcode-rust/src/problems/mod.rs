@@ -12,3 +12,4 @@ pub mod p0189_rotate_array;
 pub mod p0238_product_of_array_except_self;
 pub mod p0274_h_index;
 pub mod p0058_length_of_last_word;
+pub mod p0383_ransom_note;
