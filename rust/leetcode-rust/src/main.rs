@@ -26,7 +26,7 @@ fn main() {
     // let mut nums = vec![1,2,3,4];
     // let result = problems::p0238_product_of_array_except_self::product_except_self(nums);
     // println!("{:?}",result)
-    let citations = vec![3,0,6,1,5];
+    let citations = vec![1,3,1,5];
     let result = problems::p0274_h_index::h_index(citations);
     println!("{:?}",result);
 
