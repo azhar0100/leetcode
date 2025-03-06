@@ -32,7 +32,7 @@ fn main() {
     // let result = problems::p0274_h_index::h_index(citations);
     // println!("{:?}",result);
     let test_string1 = "egg".to_string();
-    let test_string2 = "adf".to_string();
+    let test_string2 = "add".to_string();
     let result = is_isomorphic(test_string1, test_string2);
     println!("{:?}",result);
 }
