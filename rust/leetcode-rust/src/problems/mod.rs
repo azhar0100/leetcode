@@ -15,3 +15,4 @@ pub mod p0058_length_of_last_word;
 pub mod p0383_ransom_note;
 pub mod p0205_isomorphic_strings;
 pub mod p0290_word_pattern;
+pub mod p0242_valid_anagram;
