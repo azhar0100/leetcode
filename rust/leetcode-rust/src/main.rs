@@ -31,8 +31,10 @@ fn main() {
     // let citations = vec![1,3,1,5];
     // let result = problems::p0274_h_index::h_index(citations);
     // println!("{:?}",result);
-    let test_string1 = "abba".to_string();
-    let test_string2 = "dog cat cat dog".to_string();
-    let result = word_pattern(test_string1, test_string2);
-    println!("{:?}",result);
+    // let test_string1 = "abba".to_string();
+    // let test_string2 = "dog cat cat dog".to_string();
+    // let result = word_pattern(test_string1, test_string2);
+    // println!("{:?}",result);
+    let res = problems::p0219_contains_duplicate_ii::contains_nearby_duplicate(vec![1,2,3,1,2,3],2);
+    println!("{:?}",res)
 }
