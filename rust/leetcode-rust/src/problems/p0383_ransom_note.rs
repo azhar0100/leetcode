@@ -1,5 +1,5 @@
 pub fn string_dictionary(s:&str) -> Hashmap<char,usize>{
-    s.chars().fold(HashMap::new(),|mut acc, c| {
+    s.chars().fold(Hash::new(),|mut acc, c| {
 
     })
 }
