@@ -35,6 +35,9 @@ fn main() {
     // let test_string2 = "dog cat cat dog".to_string();
     // let result = word_pattern(test_string1, test_string2);
     // println!("{:?}",result);
-    let res = problems::p0219_contains_duplicate_ii::contains_nearby_duplicate(vec![1,2,3,1,2,3],2);
+    // let res = problems::p0219_contains_duplicate_ii::contains_nearby_duplicate(vec![1,2,3,1,2,3],2);
+    // println!("{:?}",res)
+    let input_val = vec![0,1,2,4,5,7];
+    let res = problems::p0228_summary_ranges::summary_ranges(input_val);
     println!("{:?}",res)
 }
