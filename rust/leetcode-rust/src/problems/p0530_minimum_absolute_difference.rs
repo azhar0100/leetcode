@@ -2,13 +2,85 @@ use std::{cell::RefCell, i32, rc::Rc};
 
 use crate::util::treenode_leetcode::TreeNode;
 
-pub fn get_minimum_difference_against_target(root: Option<Rc<RefCell<TreeNode>>>,target:i32) -> Option<i32>{
-    root.map(|root| {
-        let root_abs_diff = (root.borrow().val - target).abs();
-        let left_abs_diff = get_minimum_difference_against_target(root.borrow().left.clone(),target);
-        let right_abs_diff = get_minimum_difference_against_target(root.borrow().right.clone(),target);
+pub fn get_minimum_difference_against_target(root: Option<Rc<RefCell<TreeNode>>>,target:i32,node_to_avoid:Rc<RefCell<TreeNode>>) -> Option<i32>{
+    root.map(|root| -> Option<i32> {
+        let is_node_to_avoid = root == node_to_avoid;
+        let root_borrow = root.borrow();
+        let root_diff = root_borrow.val - target;
+        let root_abs_diff = match is_node_to_avoid{
+            true => None,
+            false => Some(root_diff.abs()),
+        };
 
-        vec![Some(root_abs_diff),left_abs_diff,right_abs_diff].into_iter().filter_map(|x| x).min()
+        // match root_diff.cmp(&0){
+        //     std::cmp::Ordering::Less => {
+
+        //     },
+        //     std::cmp::Ordering::Equal => todo!(),
+        //     std::cmp::Ordering::Greater => todo!(),
+        // }
+
+
+
+        let left_abs_diff = root_borrow.left.clone().map(|x| (x.borrow().val.clone() - target).abs());
+        let right_abs_diff = root_borrow.right.clone().map(|x| (x.borrow().val.clone() - target).abs());
+        let option_cmp = |x_val:Option<i32>,y_val:Option<i32>| -> std::cmp::Ordering {
+            match (x_val,y_val){
+                (None, None) => std::cmp::Ordering::Equal,
+                (None, Some(_)) => std::cmp::Ordering::Greater,
+                (Some(_), None) => std::cmp::Ordering::Less,
+                (Some(x_val), Some(y_val)) => x_val.cmp(&y_val),
+            }
+        };
+        let directions_to_check = match (option_cmp(left_abs_diff,root_abs_diff),option_cmp(root_abs_diff,right_abs_diff),option_cmp(left_abs_diff,right_abs_diff)){
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Less, std::cmp::Ordering::Less) => vec![1],
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Less, std::cmp::Ordering::Equal) => panic!("impossible"),
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Less, std::cmp::Ordering::Greater) => vec![],
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Equal, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Equal, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Equal, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Greater, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Greater, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Less, std::cmp::Ordering::Greater, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Less, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Less, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Less, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Equal, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Equal, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Equal, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Greater, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Greater, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Equal, std::cmp::Ordering::Greater, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Less, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Less, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Less, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Equal, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Equal, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Equal, std::cmp::Ordering::Greater) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Greater, std::cmp::Ordering::Less) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Greater, std::cmp::Ordering::Equal) => todo!(),
+            (std::cmp::Ordering::Greater, std::cmp::Ordering::Greater, std::cmp::Ordering::Greater) => todo!(),
+        };
+        directions_to_check.into_iter().map(|x| match x{
+            0 => root_abs_diff,
+            1 => left_abs_diff.map(|left_abs_diff| get_minimum_difference_against_target(root_borrow.left.clone(), target, node_to_avoid.clone()).map(|x| left_abs_diff.min(x))).flatten(),
+            2 => right_abs_diff.map(|right_abs_diff| get_minimum_difference_against_target(root_borrow.right.clone(), target, node_to_avoid.clone()).map(|x| right_abs_diff.min(x))).flatten(),
+            _ => panic!("Something wrong happened")
+        }).filter_map(|x| x).min()
+
+
+        // let vec_repr = vec![Some(root_abs_diff),left_abs_diff,right_abs_diff];
+        // let mut indices: Vec<usize> = vec![0,1,2];
+        // indices.sort_by(|x,y| {
+        //     let (x_val,y_val) = (vec_repr[*x],vec_repr[*y]);
+        //     match (x_val,y_val){
+        //         (None, None) => std::cmp::Ordering::Equal,
+        //         (None, Some(_)) => std::cmp::Ordering::Greater,
+        //         (Some(_), None) => std::cmp::Ordering::Less,
+        //         (Some(x_val), Some(y_val)) => x_val.cmp(&y_val),
+        //     }
+        // });
+        // let first_second_third
     }).flatten()
 }
 
