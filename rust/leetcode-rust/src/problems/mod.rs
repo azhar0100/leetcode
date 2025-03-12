@@ -26,3 +26,4 @@ pub mod p226_invert_binary_tree;
 pub mod p101_symmetric_tree;
 pub mod p112_path_sum;
 pub mod p0222_count_complete_tree_nodes;
+pub mod p0637_average_of_levels_in_binary_tree;
