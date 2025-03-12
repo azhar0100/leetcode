@@ -1,4 +1,8 @@
-use problems::{p0205_isomorphic_strings::is_isomorphic, p0290_word_pattern::word_pattern};
+use std::{cell::RefCell, rc::Rc};
+
+use problems::p0222_count_complete_tree_nodes::count_nodes;
+use util::treenode_leetcode::TreeNode;
+
 
 pub mod problems;
 pub mod util;
@@ -37,7 +41,31 @@ fn main() {
     // println!("{:?}",result);
     // let res = problems::p0219_contains_duplicate_ii::contains_nearby_duplicate(vec![1,2,3,1,2,3],2);
     // println!("{:?}",res)
-    let input_val = vec![0,1,2,4,5,7];
-    let res = problems::p0228_summary_ranges::summary_ranges(input_val);
-    println!("{:?}",res)
+    let input_val = Some(Rc::new(RefCell::new(TreeNode {
+        val: 1,
+        left: Some(Rc::new(RefCell::new(TreeNode {
+            val: 2,
+            left: Some(Rc::new(RefCell::new(TreeNode {
+                val: 4,
+                left: None,
+                right: None,
+            }))),
+            right: Some(Rc::new(RefCell::new(TreeNode {
+                val: 5,
+                left: None,
+                right: None,
+            }))),
+        }))),
+        right: Some(Rc::new(RefCell::new(TreeNode {
+            val: 3,
+            left: Some(Rc::new(RefCell::new(TreeNode {
+                val: 6,
+                left: None,
+                right: None,
+            }))),
+            right: None,
+        }))),
+    })));
+    let res = count_nodes(input_val);
+    println!("{:?}", res)
 }

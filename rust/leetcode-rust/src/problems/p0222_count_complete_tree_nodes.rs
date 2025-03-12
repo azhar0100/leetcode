@@ -17,7 +17,7 @@ pub fn how_many_less_from_complete_tree(root:Option<Rc<RefCell<TreeNode>>>,curre
         Some(root) => {
             let root_node = root.borrow();
             let left_node = (&root_node.left).clone();
-            let right_node = (&root_node.left).clone();
+            let right_node = (&root_node.right).clone();
             match (left_node,right_node){
                 (None, None) => match current_level.cmp(&(max_levels-1)){
                     std::cmp::Ordering::Less => 2,
@@ -56,6 +56,6 @@ pub fn count_nodes(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     root.map(|root| {
         let number_of_levels = number_of_levels_in_complete_tree(Some(root.clone()));
         let how_many_less = how_many_less_from_complete_tree(Some(root.clone()), 0, number_of_levels) as i32;
-        (1 << number_of_levels) - how_many_less
+        (1 << number_of_levels) - 1 - how_many_less
     }).unwrap_or(0)
 }
