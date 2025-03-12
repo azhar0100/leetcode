@@ -22,3 +22,5 @@ pub mod p0228_summary_ranges;
 pub mod p0067_add_binary;
 pub mod p104_maximum_depth_of_binary_tree;
 pub mod p100_same_tree;
+pub mod p226_invert_binary_tree;
+pub mod p101_symmetric_tree;
