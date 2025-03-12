@@ -20,3 +20,4 @@ pub mod p0202_happy_number;
 pub mod p0219_contains_duplicate_ii;
 pub mod p0228_summary_ranges;
 pub mod p0067_add_binary;
+pub mod p104_maximum_depth_of_binary_tree;
