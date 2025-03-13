@@ -1,6 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use problems::p0222_count_complete_tree_nodes::count_nodes;
+use problems::{p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0222_count_complete_tree_nodes::count_nodes};
 use util::treenode_leetcode::TreeNode;
 
 
@@ -41,31 +41,33 @@ fn main() {
     // println!("{:?}",result);
     // let res = problems::p0219_contains_duplicate_ii::contains_nearby_duplicate(vec![1,2,3,1,2,3],2);
     // println!("{:?}",res)
-    let input_val = Some(Rc::new(RefCell::new(TreeNode {
-        val: 1,
-        left: Some(Rc::new(RefCell::new(TreeNode {
-            val: 2,
-            left: Some(Rc::new(RefCell::new(TreeNode {
-                val: 4,
-                left: None,
-                right: None,
-            }))),
-            right: Some(Rc::new(RefCell::new(TreeNode {
-                val: 5,
-                left: None,
-                right: None,
-            }))),
-        }))),
-        right: Some(Rc::new(RefCell::new(TreeNode {
-            val: 3,
-            left: Some(Rc::new(RefCell::new(TreeNode {
-                val: 6,
-                left: None,
-                right: None,
-            }))),
-            right: None,
-        }))),
-    })));
-    let res = count_nodes(input_val);
-    println!("{:?}", res)
+    // let input_val = Some(Rc::new(RefCell::new(TreeNode {
+    //     val: 1,
+    //     left: Some(Rc::new(RefCell::new(TreeNode {
+    //         val: 2,
+    //         left: Some(Rc::new(RefCell::new(TreeNode {
+    //             val: 4,
+    //             left: None,
+    //             right: None,
+    //         }))),
+    //         right: Some(Rc::new(RefCell::new(TreeNode {
+    //             val: 5,
+    //             left: None,
+    //             right: None,
+    //         }))),
+    //     }))),
+    //     right: Some(Rc::new(RefCell::new(TreeNode {
+    //         val: 3,
+    //         left: Some(Rc::new(RefCell::new(TreeNode {
+    //             val: 6,
+    //             left: None,
+    //             right: None,
+    //         }))),
+    //         right: None,
+    //     }))),
+    // })));
+    // let res = count_nodes(input_val);
+    // println!("{:?}", res)
+    let res = remove_duplicates(&mut vec![1,1,1,2,2,3]);
+    
 }
