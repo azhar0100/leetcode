@@ -69,7 +69,7 @@ fn main() {
     // let res = count_nodes(input_val);
     // println!("{:?}", res)
     // let res = remove_duplicates(&mut vec![1,1,1,2,2,3]);
-    let res = can_jump(vec![2,3,1,1,4]);
+    let res = can_jump(vec![3,2,1,0,4]);
     println!("{:?}",res);
     
 }
