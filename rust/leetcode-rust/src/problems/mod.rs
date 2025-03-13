@@ -29,3 +29,4 @@ pub mod p0222_count_complete_tree_nodes;
 pub mod p0637_average_of_levels_in_binary_tree;
 pub mod p0530_minimum_absolute_difference;
 pub mod p108_convert_sorted_array_to_binary_search_tree;
+pub mod p0190_reverse_bits;
