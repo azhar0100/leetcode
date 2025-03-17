@@ -8,7 +8,8 @@ pub fn can_jump_from_this_index(
 ) -> Option<i32> {
     // println!("accumulator")
     println!("Working on starting index {:?}", starting_index);
-    let res = nums.get(starting_index)
+    let res = nums
+        .get(starting_index)
         .map(|jump| (*jump as usize + starting_index).min(nums.len() - 1))
         .map(
             |max_index| match max_index == nums.len() - 1 {
@@ -43,14 +44,30 @@ pub fn can_jump_from_this_index(
         )
         .flatten();
     match accumulator.get(&starting_index) {
-        Some(memoized) => res.map(|res| (*memoized).map(|memoized| memoized.min(res))).flatten(),
-        None => {res}
+        Some(memoized) => res
+            .map(|res| (*memoized).map(|memoized| memoized.min(res)))
+            .flatten(),
+        None => res,
     }
 }
-
 pub fn jump(nums: Vec<i32>) -> i32 {
-    match nums.len() {
-        1 => 1,
-        _ => can_jump_from_this_index(&nums, 0, &mut HashMap::new()).unwrap(),
+    let mut jump_count = 0;
+    let mut i = 0;
+    while i < nums.len() - 1 {
+        let current_jump_length = nums[i].clone() as usize;
+        if i+current_jump_length+1 >= nums.len() - 1{
+            
+        }
+        let current_slice = &nums[i..(i+current_jump_length+1).min(nums.len())];
+        match current_slice.iter().enumerate().max_by_key(|(_,x)| **x).map(|(i,x)| i){
+            Some(optimal_jump_position) => {
+                let optimal_jump_position_canonical = (optimal_jump_position+i).min(nums.len()-1);
+                i = optimal_jump_position_canonical;
+                jump_count+=1;
+            },
+            None => break,
+        }
+
     }
+    jump_count
 }
