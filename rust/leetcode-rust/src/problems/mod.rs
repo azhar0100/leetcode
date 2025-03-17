@@ -33,3 +33,4 @@ pub mod p0190_reverse_bits;
 pub mod p0122_best_time_to_buy_and_sell_stock_2;
 pub mod p0055_jump_game;
 pub mod p45_jump_game_2;
+pub mod p0134_gas_station;
