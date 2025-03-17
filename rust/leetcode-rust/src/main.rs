@@ -1,6 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use problems::{p0055_jump_game::can_jump, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump};
+use problems::{p0055_jump_game::can_jump, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump};
 use util::treenode_leetcode::TreeNode;
 
 
@@ -69,7 +69,9 @@ fn main() {
     // let res = count_nodes(input_val);
     // println!("{:?}", res)
     // let res = remove_duplicates(&mut vec![1,1,1,2,2,3]);
-    let res = jump(vec![2,1]);
-    println!("{:?}",res);
+    // let res = jump(vec![2,1]);
+    // println!("{:?}",res);
+    let res = can_complete_circuit(vec![2,3,4], vec![3,4,3]);
+    println!("{:?}",res)
     
 }

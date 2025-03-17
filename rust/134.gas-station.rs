@@ -13,7 +13,7 @@ pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> i32 {
     };
     (0..n)
         .filter_map(|i| {
-            let indices_iterator = (0..n).map(|j| j % n);
+            let indices_iterator = (0..n).map(|j| (j+i) % n);
             let mut gas_current = 0;
             for j in indices_iterator{
                 gas_current += gas[j];
@@ -27,7 +27,7 @@ pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> i32 {
         })
         .next()
         .map(|x| x as i32)
-        .unwrap()
+        .unwrap_or(-1)
 }
 
 impl Solution {
