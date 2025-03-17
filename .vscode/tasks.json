@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Process LeetCode File",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/leetcode_add_to_rust_folder.py",
+                "${file}",
+                "${workspaceFolder}/rust/leetcode-rust/src/problems"
+            ],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
