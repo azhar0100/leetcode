@@ -11,12 +11,8 @@ pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> Option<i32> {
         true => gas.len(),
         false => panic!("lengths don't match"),
     };
-    let gas_minus_cost_vec = gas
-        .iter()
-        .zip(cost.iter())
-        .map(|(g, c)| g - c)
-        .collect::<Vec<_>>();
-    match gas_minus_cost_vec.iter().sum::<i32>() < 0 {
+    let gas_minus_cost_vec = gas.iter().zip(cost.iter()).map(|(g, c)| g - c);
+    match gas_minus_cost_vec.clone().sum::<i32>() < 0 {
         true => None,
         false => {
             // let change_indices = gas_minus_cost_vec.iter().enumerate().scan(
@@ -33,8 +29,7 @@ pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> Option<i32> {
             //     },
             // );
             let index = gas_minus_cost_vec
-                .iter()
-                .scan(0, |acc, &x| {
+                .scan(0, |acc, x| {
                     *acc += x;
                     Some(*acc)
                 })
