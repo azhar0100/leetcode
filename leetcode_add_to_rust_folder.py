@@ -5,7 +5,7 @@ import re
 complete_pattern = re.compile(r"""(?s)/\*
  \*\s*@lc app=leetcode id=(?P<id1>\d+) lang=rust
  \*\s*
- \*\s*\[(?P<id2>\d+)\] (?P<problem_name>[A-Za-z ]+)
+ \*\s*\[(?P<id2>\d+)\] (?P<problem_name>[A-Za-z ,\(\)]+)
  \*/\s*
 // @lc code=start
 impl Solution \{
