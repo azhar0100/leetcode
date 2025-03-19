@@ -5,7 +5,7 @@ import re
 complete_pattern = re.compile(r"""(?s)/\*
  \* @lc app=leetcode id=(?P<id1>\d+) lang=rust
  \*
- \* \[(?P<id2>\d+)\] (?P<problem_name>Gas Station)
+ \* \[(?P<id2>\d+)\] (?P<problem_name>.*)
  \*/
 
 // @lc code=start
@@ -24,6 +24,7 @@ def work_on_input_file(path: Path, output_folder: Path):
     path_name = path.name
     content = path.read_text()
     match_content = complete_pattern.search(content)  # Using search instead of match
+    print(match_content)
     id1 = match_content.group('id1')
     id2 = match_content.group('id2')
     assert id1 == id2
@@ -46,4 +47,13 @@ def work_on_input_file(path: Path, output_folder: Path):
     
 
 if __name__ == '__main__':
-    work_on_input_file(Path("rust/134.gas-station.rs"),Path("rust/leetcode-rust/src/problems"))
+    import argparse
+    parser = argparse.ArgumentParser('leetcode_add_to_rust_folder.py')
+    parser.add_argument("file_to_add")
+    parser.add_argument("output_folder")
+    args = parser.parse_args()
+    
+    file_to_add = Path(args.file_to_add)
+    output_folder = Path(args.output_folder)
+
+    work_on_input_file(file_to_add, output_folder)
