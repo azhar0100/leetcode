@@ -39,3 +39,4 @@ pub mod p0392_is_subsequence;
 pub mod p0048_rotate_image;
 pub mod p0036_valid_sudoku;
 pub mod p0073_set_matrix_zeroes;
+pub mod p0049_group_anagrams;
