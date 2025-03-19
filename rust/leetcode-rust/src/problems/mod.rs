@@ -36,3 +36,5 @@ pub mod p45_jump_game_2;
 pub mod p0134_gas_station;
 pub mod p0151_reverse_words_in_a_string;
 pub mod p0392_is_subsequence;
+pub mod p0048_rotate_image;
+pub mod p0036_valid_sudoku;

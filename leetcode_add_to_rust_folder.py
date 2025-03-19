@@ -3,15 +3,13 @@ import re
 
 # Fixed pattern - using re.DOTALL (or the inline flag (?s)) to match across lines
 complete_pattern = re.compile(r"""(?s)/\*
- \* @lc app=leetcode id=(?P<id1>\d+) lang=rust
- \*
- \* \[(?P<id2>\d+)\] (?P<problem_name>.*)
- \*/
-
+ \*\s*@lc app=leetcode id=(?P<id1>\d+) lang=rust
+ \*\s*
+ \*\s*\[(?P<id2>\d+)\] (?P<problem_name>[A-Za-z ]+)
+ \*/\s*
 // @lc code=start
 impl Solution \{
-    pub fn (?P<fn_name>[A-Za-z_]+)\((?P<args>.*?)\) -> (?P<return_type>.*?) \{
-        
+    pub fn (?P<fn_name>[A-Za-z_]+)\((?P<args>.*?)\) -?>?\s*(?P<return_type>.*?)?\s*\{\s*
     \}
 \}
 // @lc code=end

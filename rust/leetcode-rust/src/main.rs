@@ -1,6 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use problems::{p0055_jump_game::can_jump, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump};
+use problems::{p0048_rotate_image, p0055_jump_game::can_jump, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump};
 use util::treenode_leetcode::TreeNode;
 
 
@@ -71,7 +71,21 @@ fn main() {
     // let res = remove_duplicates(&mut vec![1,1,1,2,2,3]);
     // let res = jump(vec![2,1]);
     // println!("{:?}",res);
-    let res = can_complete_circuit(vec![2,3,4], vec![3,4,3]);
-    println!("{:?}",res)
-    
+    // let res = can_complete_circuit(vec![2,3,4], vec![3,4,3]);
+    // let mut input_mat = vec![vec![1,2,3],vec![4,5,6],vec![7,8,9]];
+    // println!("{:?}",input_mat);
+    // let res = p0048_rotate_image::rotate(&mut input_mat);
+    // println!("{:?}",input_mat);
+    let input_mat = vec![
+        vec!['5','3','.','.','7','.','.','.','.'],
+        vec!['6','.','.','1','9','5','.','.','.'],
+        vec!['.','9','8','.','.','.','.','6','.'],
+        vec!['8','.','.','.','6','.','.','.','3'],
+        vec!['4','.','.','8','.','3','.','.','1'],
+        vec!['7','.','.','.','2','.','.','.','6'],
+        vec!['.','6','.','.','.','.','2','8','.'],
+        vec!['.','.','.','4','1','9','.','.','5'],
+        vec!['.','.','.','.','8','.','.','7','9']];
+    let res = problems::p0036_valid_sudoku::is_valid_sudoku(input_mat);
+    println!("{:?}",res);
 }
