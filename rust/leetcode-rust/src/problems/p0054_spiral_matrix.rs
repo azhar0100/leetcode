@@ -3,6 +3,9 @@ pub fn outer_spiral_of_matrix(matrix_size: (usize, usize)) -> impl Iterator<Item
     let perimeter = 2 * m + 2 * n;
     let spiral_order = (0..perimeter).filter_map(move |i| {
         let second_turn = i >= perimeter;
+        if second_turn {
+            return None;
+        }
         let diagonal_side = i / (m + n);
         let left_side_or_right_side = i % (m + n) / m;
         let side_number = diagonal_side * 2 + left_side_or_right_side;
@@ -18,10 +21,7 @@ pub fn outer_spiral_of_matrix(matrix_size: (usize, usize)) -> impl Iterator<Item
             (0, 1) => number_in_side == n - 1,
             (1, 0) => number_in_side == m - 1,
             (1, 1) => number_in_side == n - 1,
-            _ => panic!(
-                "Invalid diagonal_side: {}, left_side_or_right_side: {}",
-                diagonal_side, left_side_or_right_side
-            ),
+            _ => true,
         };
         match is_last_item_in_side {
             true => None,
@@ -40,9 +40,24 @@ pub fn outer_spiral_of_matrix(matrix_size: (usize, usize)) -> impl Iterator<Item
 pub fn spiral_order_idxes(matrix_size: (usize, usize)) -> impl Iterator<Item = (usize, usize)> {
     let (m, n) = matrix_size;
     let smaller_dimension = m.min(n);
-    let number_of_squares = smaller_dimension / 2;
-    (0..number_of_squares)
-        .flat_map(move |i| outer_spiral_of_matrix((m - 2*i, n - 2*i)).map(move |(x, y)| (x + i, y + i)))
+    let number_of_squares = match smaller_dimension % 2 {
+        0 => smaller_dimension / 2,
+        1 => smaller_dimension / 2 + 1,
+        _ => panic!("Invalid smaller_dimension: {}", smaller_dimension),
+    };
+    (0..number_of_squares).flat_map(move |i| {
+        let new_matrix_size = (m - 2 * i, n - 2 * i);
+        match new_matrix_size {
+            (0, _) | (_, 0) => {
+                Box::new(std::iter::empty()) as Box<dyn Iterator<Item = (usize, usize)>>
+            }
+            (1, _) => Box::new((0..new_matrix_size.1).map(move |j| (i, i + j))),
+            (_, 1) => Box::new((0..new_matrix_size.0).map(move |j| (i + j, i))),
+            _ => {
+                Box::new(outer_spiral_of_matrix(new_matrix_size).map(move |(x, y)| (x + i, y + i)))
+            }
+        }
+    })
 }
 
 pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
