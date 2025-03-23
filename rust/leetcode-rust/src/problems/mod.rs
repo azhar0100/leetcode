@@ -42,3 +42,4 @@ pub mod p0073_set_matrix_zeroes;
 pub mod p0049_group_anagrams;
 pub mod p0050_pow_x_n;
 pub mod p0054_spiral_matrix;
+pub mod p0128_longest_consecutive_sequence;
