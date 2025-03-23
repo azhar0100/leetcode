@@ -1,8 +1,12 @@
 use std::{cell::RefCell, rc::Rc};
 
-use problems::{p0048_rotate_image, p0054_spiral_matrix::spiral_order, p0055_jump_game::can_jump, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump};
+use problems::{
+    p0048_rotate_image, p0054_spiral_matrix::spiral_order, p0055_jump_game::can_jump,
+    p0080_remove_duplicates_from_sorted_array_2::remove_duplicates,
+    p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes,
+    p45_jump_game_2::jump,
+};
 use util::treenode_leetcode::TreeNode;
-
 
 pub mod problems;
 pub mod util;
@@ -73,12 +77,13 @@ fn main() {
     // println!("{:?}",res);
     // let res = can_complete_circuit(vec![2,3,4], vec![3,4,3]);
     // let mut input_mat = vec![vec![1,2,3,4],vec![5,6,7,8],vec![9,10,11,12],vec![13,14,15,16]];
-    let mut input_mat = vec![vec![1,2,3],vec![4,5,6],vec![7,8,9]];
+    // let mut input_mat = vec![vec![1,2,3],vec![4,5,6],vec![7,8,9]];
+    let mut input_mat = vec![vec![1, 2, 3, 4], vec![5, 6, 7, 8], vec![9, 10, 11, 12]];
     // println!("{:?}",input_mat);
     // let res = p0048_rotate_image::rotate(&mut input_mat);
     // println!("{:?}",input_mat);
     let res = spiral_order(input_mat);
-    println!("{:?}",res);
+    println!("{:?}", res);
     // let input_mat = vec![
     //     vec!['5','3','.','.','7','.','.','.','.'],
     //     vec!['6','.','.','1','9','5','.','.','.'],

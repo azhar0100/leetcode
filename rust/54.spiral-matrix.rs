@@ -5,40 +5,43 @@
  */
 
 // @lc code=start
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FirstSideOrSecondSide {
+    FirstSide,
+    SecondSide,
+}
+
 pub fn outer_spiral_of_matrix(matrix_size: (usize, usize)) -> impl Iterator<Item = (usize, usize)> {
     let (m, n) = matrix_size;
     let perimeter = 2 * m + 2 * n;
     let spiral_order = (0..perimeter).filter_map(move |i| {
-        let second_turn = i >= perimeter;
-        if second_turn {
-            return None;
-        }
-        let diagonal_side = i / (m + n);
-        let left_side_or_right_side = i % (m + n) / m;
-        let side_number = diagonal_side * 2 + left_side_or_right_side;
-        let number_in_side = match side_number {
-            0 => i,
-            1 => i - m,
-            2 => i - m - n,
-            3 => i - 2 * m - n,
-            _ => panic!("Invalid side number: {}", side_number),
+        let side_of_rectangle = match i / (perimeter / 2) {
+            0 => FirstSideOrSecondSide::FirstSide,
+            1 => FirstSideOrSecondSide::SecondSide,
+            _ => return None,
         };
-        let is_last_item_in_side = match (diagonal_side, left_side_or_right_side) {
-            (0, 0) => number_in_side == m - 1,
-            (0, 1) => number_in_side == n - 1,
-            (1, 0) => number_in_side == m - 1,
-            (1, 1) => number_in_side == n - 1,
-            _ => true,
+        let side_of_l_shape = match (i % (perimeter / 2)) < (m - 1) {
+            true => FirstSideOrSecondSide::FirstSide,
+            false => FirstSideOrSecondSide::SecondSide,
         };
-        match is_last_item_in_side {
-            true => None,
-            false => Some(match side_number {
-                0 => (0, number_in_side),
-                1 => (number_in_side, n - 1),
-                2 => (m - 1, n - 1 - number_in_side),
-                3 => (m - 1 - number_in_side, 0),
-                _ => panic!("Invalid side number: {}", side_number),
-            }),
+        match (side_of_rectangle, side_of_l_shape) {
+            (FirstSideOrSecondSide::FirstSide, FirstSideOrSecondSide::FirstSide) => {
+                let j = i % m;
+                Some((j, 0))
+            }
+            (FirstSideOrSecondSide::FirstSide, FirstSideOrSecondSide::SecondSide) => {
+                let j = i % m;
+                Some((j, n - 1))
+            }
+            (FirstSideOrSecondSide::SecondSide, FirstSideOrSecondSide::FirstSide) => {
+                let j = i % n;
+                Some((0, j))
+            }
+            (FirstSideOrSecondSide::SecondSide, FirstSideOrSecondSide::SecondSide) => {
+                let j = i % n;
+                Some((m - 1, j))
+            }
+            _ => None,
         }
     });
     spiral_order
