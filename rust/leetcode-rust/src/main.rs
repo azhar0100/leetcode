@@ -1,7 +1,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use problems::{
-    p0048_rotate_image, p0054_spiral_matrix::spiral_order, p0055_jump_game::can_jump, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0128_longest_consecutive_sequence::longest_consecutive, p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump
+    p0048_rotate_image, p0054_spiral_matrix::spiral_order, p0055_jump_game::can_jump, p0056_merge_intervals, p0080_remove_duplicates_from_sorted_array_2::remove_duplicates, p0128_longest_consecutive_sequence::longest_consecutive, p0134_gas_station::can_complete_circuit, p0222_count_complete_tree_nodes::count_nodes, p45_jump_game_2::jump
 };
 use util::treenode_leetcode::TreeNode;
 
@@ -81,7 +81,10 @@ fn main() {
     // println!("{:?}",input_mat);
     // let res = spiral_order(input_mat);
     // println!("{:?}", res);
-    let res = longest_consecutive(vec![100,4,200,1,3,2]);
+    // let res = longest_consecutive(vec![100,4,200,1,3,2]);
+    // println!("{:?}",res);
+    let input_var = vec![vec![1,3],vec![2,6],vec![8,10],vec![15,18]];
+    let res = p0056_merge_intervals::merge(input_var);
     println!("{:?}",res);
     // let input_mat = vec![
     //     vec!['5','3','.','.','7','.','.','.','.'],
