@@ -32,13 +32,13 @@ where
         value_a.partial_cmp(value_b).map(|ordering| match ordering {
             std::cmp::Ordering::Equal => match (self, other) {
                 (LineSweepElement::Start(_, _), LineSweepElement::Start(_, _)) => ordering,
-                (LineSweepElement::Start(_, _), LineSweepElement::End(_, _)) => ordering,
+                (LineSweepElement::Start(_, _), LineSweepElement::End(_, _)) => {
+                    std::cmp::Ordering::Less
+                }
                 (LineSweepElement::End(_, _), LineSweepElement::Start(_, _)) => {
                     std::cmp::Ordering::Greater
                 }
-                (LineSweepElement::End(_, _), LineSweepElement::End(_, _)) => {
-                    std::cmp::Ordering::Less
-                }
+                (LineSweepElement::End(_, _), LineSweepElement::End(_, _)) => ordering,
             },
             _ => ordering,
         })
@@ -75,10 +75,17 @@ pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         })
         .collect::<Vec<LineSweepElement<i32>>>();
     interval_elements.sort();
-    println!("{:?}", interval_elements.clone().into_iter().map(|x| match x{
-        LineSweepElement::Start(s, _) => format!("Start({})", s),
-        LineSweepElement::End(e, _) => format!("End({})", e),
-    }).collect::<Vec<_>>());
+    println!(
+        "{:?}",
+        interval_elements
+            .clone()
+            .into_iter()
+            .map(|x| match x {
+                LineSweepElement::Start(s, _) => format!("Start({})", s),
+                LineSweepElement::End(e, _) => format!("End({})", e),
+            })
+            .collect::<Vec<_>>()
+    );
     interval_elements
         .into_iter()
         .scan(
