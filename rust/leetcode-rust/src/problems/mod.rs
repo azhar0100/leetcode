@@ -44,3 +44,4 @@ pub mod p0050_pow_x_n;
 pub mod p0054_spiral_matrix;
 pub mod p0128_longest_consecutive_sequence;
 pub mod p0056_merge_intervals;
+pub mod p0057_insert_interval;

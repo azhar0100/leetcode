@@ -1,3 +1,10 @@
+/*
+ * @lc app=leetcode id=57 lang=rust
+ *
+ * [57] Insert Interval
+ */
+
+// @lc code=start
 use std::fmt::Debug;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -115,3 +122,15 @@ pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         .map(|(x, y)| vec![x, y])
         .collect()
 }
+
+pub fn insert(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {
+    let new_intervals = intervals.into_iter().chain(vec![new_interval]).collect();
+    merge(new_intervals)
+}
+
+impl Solution {
+    pub fn insert(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {
+        insert(intervals, new_interval)
+    }
+}
+// @lc code=end
