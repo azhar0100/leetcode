@@ -20,26 +20,30 @@ pub fn outer_spiral_of_matrix(matrix_size: (usize, usize)) -> impl Iterator<Item
             1 => FirstSideOrSecondSide::SecondSide,
             _ => return None,
         };
-        let side_of_l_shape = match (i % (perimeter / 2)) < (m - 1) {
+        let side_of_l_shape = match i % (perimeter / 2) < n {
             true => FirstSideOrSecondSide::FirstSide,
             false => FirstSideOrSecondSide::SecondSide,
         };
         match (side_of_rectangle, side_of_l_shape) {
             (FirstSideOrSecondSide::FirstSide, FirstSideOrSecondSide::FirstSide) => {
-                let j = i % m;
-                Some((j, 0))
+                let j = i;
+                Some((0, j))
             }
             (FirstSideOrSecondSide::FirstSide, FirstSideOrSecondSide::SecondSide) => {
-                let j = i % m;
+                let j = i - n;
                 Some((j, n - 1))
             }
             (FirstSideOrSecondSide::SecondSide, FirstSideOrSecondSide::FirstSide) => {
-                let j = i % n;
-                Some((0, j))
+                let j = i % (m + n);
+                Some((m - 1, n - 1 - j))
             }
             (FirstSideOrSecondSide::SecondSide, FirstSideOrSecondSide::SecondSide) => {
-                let j = i % n;
-                Some((m - 1, j))
+                let j = i % (m + n) - n;
+                let res_tuple = (m - 1 - j, 0);
+                match res_tuple {
+                    (0, 0) => None,
+                    _ => Some(res_tuple),
+                }
             }
             _ => None,
         }
@@ -72,9 +76,7 @@ pub fn spiral_order_idxes(matrix_size: (usize, usize)) -> impl Iterator<Item = (
 
 pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
     // Spiral Matrix
-    let m = matrix.len();
-    let n = matrix[0].len();
-    let spiral_order = spiral_order_idxes((m, n))
+    spiral_order_idxes((matrix.len(), matrix[0].len()))
         .scan(None, |acc, idx| match acc {
             Some(prev_idx) => match prev_idx == &idx {
                 true => {
@@ -91,12 +93,7 @@ pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
                 Some(Some(idx))
             }
         })
-        .filter_map(|x| x);
-    let spiral_order_vec: Vec<_> = spiral_order.collect();
-    println!("{:?}", spiral_order_vec);
-
-    spiral_order_vec
-        .into_iter()
+        .filter_map(|x| x)
         .map(|(i, j)| matrix[i][j])
         .collect()
 }

@@ -33,19 +33,14 @@ pub fn outer_spiral_of_matrix(matrix_size: (usize, usize)) -> impl Iterator<Item
             (FirstSideOrSecondSide::SecondSide, FirstSideOrSecondSide::SecondSide) => {
                 let j = i % (m + n) - n;
                 let res_tuple = (m - 1 - j, 0);
-                match res_tuple{
-                    (0,0) => None,
-                    _ => Some(res_tuple)
+                match res_tuple {
+                    (0, 0) => None,
+                    _ => Some(res_tuple),
                 }
             }
             _ => None,
         }
     });
-    println!(
-        "spiral order in matrix of size, {:?} => {:?}",
-        matrix_size,
-        spiral_order.clone().collect::<Vec<_>>()
-    );
     spiral_order
 }
 
@@ -74,9 +69,7 @@ pub fn spiral_order_idxes(matrix_size: (usize, usize)) -> impl Iterator<Item = (
 
 pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
     // Spiral Matrix
-    let m = matrix.len();
-    let n = matrix[0].len();
-    let spiral_order = spiral_order_idxes((m, n))
+    spiral_order_idxes((matrix.len(), matrix[0].len()))
         .scan(None, |acc, idx| match acc {
             Some(prev_idx) => match prev_idx == &idx {
                 true => {
@@ -93,12 +86,7 @@ pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
                 Some(Some(idx))
             }
         })
-        .filter_map(|x| x);
-    let spiral_order_vec: Vec<_> = spiral_order.collect();
-    println!("{:?}", spiral_order_vec);
-
-    spiral_order_vec
-        .into_iter()
+        .filter_map(|x| x)
         .map(|(i, j)| matrix[i][j])
         .collect()
 }
